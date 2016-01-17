@@ -5,6 +5,14 @@ var router = express.Router();
 
 var ItemModel = require('../models/ItemModel');
 
+function getItems(res){
+	ItemModel.find(function(err, items){
+		if(err)
+			res.send(err);
+		res.json(items);
+	});
+}
+
 router.route('/items')
 	.post(function(req, res){
 		var item = new ItemModel();
@@ -16,15 +24,12 @@ router.route('/items')
 		item.save(function(err){
 			if (err)
 				res.send(err);
-			res.json({message: 'Item successfully created!'});
+			console.log('Item successfully created!');
+			getItems(res);
 		});
 	})
 	.get(function(req, res){
-		ItemModel.find(function(err, items){
-			if (err)
-				res.send(err);
-			res.json(items);
-		});
+		getItems(res);
 	});
 
 router.route('/items/:item_id')
@@ -46,7 +51,8 @@ router.route('/items/:item_id')
 			item.save(function(err){
 				if (err)
 					res.send(err);
-				res.json({message: 'Item successfully updated!'});
+				console.log('Item successfully updated!');
+				getItems(res);
 			});
 		});
 	})
@@ -56,7 +62,8 @@ router.route('/items/:item_id')
 		}, function(err, item){
 			if (err)
 				res.send(err);
-			res.json({message: 'Item successfully removed!'})
+			console.log('Item successfully removed!');
+			getItems(res);
 		});
 	});
 router.use('/api', router);

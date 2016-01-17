@@ -5,6 +5,14 @@ var router = express.Router();
 
 var CategoryModel = require('../models/CategoryModel');
 
+function getCategories(res){
+	CategoryModel.find(function(err, categories){
+		if (err)
+			res.send(err);
+			res.json(categories);
+	});
+}
+
 router.route('/categories')
 	.post(function(req, res){
 		var category = new CategoryModel();
@@ -13,15 +21,12 @@ router.route('/categories')
 		category.save(function(err){
 			if (err)
 				res.send(err);
-			res.json({message: 'Category successfully created!'});
+			console.log('Category successfully created!');
+			getCategories(res);
 		});
 	})
 	.get(function(req, res){
-		CategoryModel.find(function(err, categories){
-			if (err)
-				res.send(err);
-			res.json(categories);
-		});
+		getCategories(res);
 	});
 router.route('/categories/:category_id')
 	.get(function(req, res){
@@ -39,7 +44,8 @@ router.route('/categories/:category_id')
 			category.save(function(err){
 				if (err)
 					res.send(err);
-				res.json({message: 'Category successfully updated!'});
+				console.log('Category successfully updated!');
+				getCategories(res);
 			});
 		});
 	})
@@ -49,7 +55,8 @@ router.route('/categories/:category_id')
 		}, function(err, category){
 			if (err)
 				res.send(err);
-			res.json({message: 'Category successfully removed!'});
+			console.log('Category successfully removed!');
+			getCategories(res);
 		});
 	});
 

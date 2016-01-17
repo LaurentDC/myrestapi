@@ -12,6 +12,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var configDB = require('./config/database.js');
+var cors = require('cors');
 
 // CONFIGURATION
 // ==================================
@@ -28,6 +29,7 @@ app.use(session({secret: configDB.secret}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
+app.use(cors());
 
 // VIEWS
 // ==================================
