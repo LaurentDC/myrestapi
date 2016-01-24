@@ -1,3 +1,2 @@
-# myrestapi
-Restful api for partcitce purpose
-MEAN
+# My Rest API
+NodeJS Restful api for MEAN stack practice purpose
